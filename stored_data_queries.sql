@@ -2,7 +2,7 @@ create database dataset;
 use dataset;
 show tables;
 
-SET sql_safe_updates = 1;
+set sql_safe_updates = 1;
 
 -- 1. select the data who is making profit
 select * from stored_data where profit > 0;
@@ -16,8 +16,8 @@ select distinct customer_id from stored_data;
 
 -- 4. Take the categories & subcategories in where this unique customerID present
 
-select distinct Category, SubCategory FROM stored_data 
-WHERE Customer_ID IN (select distinct Customer_ID FROM stored_data);
+select distinct Category, SubCategory from stored_data 
+where Customer_ID in (select distinct Customer_ID from stored_data);
 
 -- 5. select most profit making city
 select City, round(SUM(Profit),2) as Total_Profit
@@ -66,12 +66,13 @@ alter table stored_data add column CategoryAndSubCategory VARCHAR(50);
 
 update stored_data set CategoryAndSubCategory = CONCAT(Category, '-', SubCategory);
 select CategoryAndSubCategory  from stored_data;
+
 -- 13. select the data shipped after 8/3/2015 and befor 1/10/2017
 select * from stored_data
 where Ship_Date > '2015-03-08' and Ship_Date < '2017-10-01';
 
 -- 14. find the most used customerID
-select Customer_ID, COUNT(*) as Order_Count
+select Customer_ID, count(*) as Order_Count
 from stored_data
 group BY Customer_ID
 order BY Order_Count desc
